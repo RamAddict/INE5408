@@ -16,7 +16,7 @@ public:
     ~ArrayList();
 
     void clear();
-    // void push_back(const T& data);
+    void push_back(const T& data);
     // void push_front(const T& data);
     // void insert(const T& data, std::size_t index);
     // void insert_sorted(const T& data);
@@ -71,7 +71,15 @@ template<typename T>
 bool ArrayList<T>::empty() const{
   return (size_ == 0);
 }
-
+template<typename T>
+void push_back(const T& data){
+  if( size_ == max_size_ ){
+    throw std::out_of_range("out of range.");
+  } else {
+    contents[ size_ ] = data;
+  }
+  size_++;
+}
 
 } // namespace structures
 
