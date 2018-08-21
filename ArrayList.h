@@ -27,8 +27,10 @@ public:
     bool full() const;
     bool empty() const;
     // bool contains(const T& data) const;
-    // std::size_t find(const T& data) const;
-    // std::size_t size() const;
+    //! finds an element with value data and returns its position 
+    //! returns (unsigned) -1 if not found
+    std::size_t find(const T& data) const;
+    std::size_t size() const;
     // std::size_t max_size() const;
     // T& at(std::size_t index);
     // T& operator[](std::size_t index);
@@ -105,52 +107,19 @@ T ArrayList<T>::pop(std::size_t index){
     return rot;
   }
 }
+template<typename T>
+std::size_t ArrayList<T>::find(const T& data) const {
+    for(auto i = 0; i != max_size_; i++)
+    {
+         if (data == contents[ i ]) {
+             return i;
+         }
+    }
+    return -1;
+}
+template<typename T>
+std::size_t ArrayList<T>::size() const {
+    return size_;
+}
 } // namespace structures
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 #endif
