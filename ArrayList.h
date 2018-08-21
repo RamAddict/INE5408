@@ -31,10 +31,10 @@ public:
     //! returns (unsigned) -1 if not found
     std::size_t find(const T& data) const;
     std::size_t size() const;
-    // std::size_t max_size() const;
+    std::size_t max_size() const;
     // T& at(std::size_t index);
     // T& operator[](std::size_t index);
-    // const T& at(std::size_t index) const;
+    const T& at(std::size_t index) const;
     // const T& operator[](std::size_t index) const;
 
 private:
@@ -117,9 +117,24 @@ std::size_t ArrayList<T>::find(const T& data) const {
     }
     return -1;
 }
+
 template<typename T>
 std::size_t ArrayList<T>::size() const {
     return size_;
+}
+
+template<typename T>
+std::size_t ArrayList<T>::max_size() const {
+    return max_size_;
+}
+
+template<typename T>
+const T& ArrayList<T>::at(std::size_t index) const {
+    if( size_ <= index) {
+      throw std::out_of_range("out of range");
+    } else {
+      return contents[ index ];
+    }
 }
 } // namespace structures
 #endif
