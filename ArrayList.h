@@ -27,13 +27,13 @@ public:
     bool full() const;
     bool empty() const;
     // bool contains(const T& data) const;
-    //! finds an element with value data and returns its position 
+    //! finds an element with value data and returns its position
     //! returns (unsigned) -1 if not found
     std::size_t find(const T& data) const;
     std::size_t size() const;
     std::size_t max_size() const;
     T& at(std::size_t index);
-    // T& operator[](std::size_t index);
+    T& operator[](std::size_t index);
     const T& at(std::size_t index) const;
     // const T& operator[](std::size_t index) const;
 
@@ -115,7 +115,7 @@ std::size_t ArrayList<T>::find(const T& data) const {
              return i;
          }
     }
-    return -1;
+    return size_;
 }
 
 template<typename T>
@@ -130,7 +130,7 @@ std::size_t ArrayList<T>::max_size() const {
 
 template<typename T>
 const T& ArrayList<T>::at(std::size_t index) const {
-    if( size_ <= index) {
+    if (size_ <= index) {
       throw std::out_of_range("out of range");
     } else {
       return contents[ index ];
@@ -138,11 +138,38 @@ const T& ArrayList<T>::at(std::size_t index) const {
 }
 template<typename T>
 T& ArrayList<T>::at(std::size_t index) {
-    if( size_ <= index) {
+    if (size_ <= index) {
       throw std::out_of_range("out of range");
     } else {
       return contents[ index ];
     }
 }
+template<typename T>
+T& operator[](std::size_t index) {
+return at(index);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 } // namespace structures
 #endif
