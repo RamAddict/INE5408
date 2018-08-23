@@ -17,25 +17,23 @@ public:
 
     void clear();
     void push_back(const T& data);
-    // void push_front(const T& data);
+    void push_front(const T& data);
     // void insert(const T& data, std::size_t index);
     // void insert_sorted(const T& data);
     T pop(std::size_t index);
-    // T pop_back();
-    // T pop_front();
-    // void remove(const T& data);
+    T pop_back();
+    T pop_front();
+    void remove(const T& data);
     bool full() const;
     bool empty() const;
-    // bool contains(const T& data) const;
-    //! finds an element with value data and returns its position
-    //! returns (unsigned) -1 if not found
+    bool contains(const T& data) const;
     std::size_t find(const T& data) const;
     std::size_t size() const;
     std::size_t max_size() const;
     T& at(std::size_t index);
     T& operator[](std::size_t index);
     const T& at(std::size_t index) const;
-    // const T& operator[](std::size_t index) const;
+    const T& operator[](std::size_t index) const;
 
 private:
     T* contents;
@@ -145,11 +143,46 @@ T& ArrayList<T>::at(std::size_t index) {
     }
 }
 template<typename T>
-T& operator[](std::size_t index) {
+T& ArrayList<T>::operator[](std::size_t index) {
 return at(index);
 }
-
-
+template<typename T>
+const T& ArrayList<T>::operator[](std::size_t index) const {
+return at(index);
+}
+template<typename T>
+bool ArrayList<T>::contains(const T& data) const {
+  return !(find(data) == size_ );
+}
+template<typename T>
+T ArrayList<T>::pop_back() {
+  auto rex = contents[size_ - 1 ];
+  pop(size_ - 1);
+  return rex;
+}
+template<typename T>
+T ArrayList<T>::pop_front() {
+  auto rex = contents[0];
+  pop(0);
+  return rex;
+}
+template<typename T>
+void ArrayList<T>::remove(const T& data) {
+  pop(find(data));
+}
+template<typename T>
+void ArrayList<T>::push_front(const T& data) {
+  if (size_ == max_size_) {
+    throw std::out_of_range("out of range");
+  } else {
+      for( auto i = size_; i != 0; i--) {
+        contents[ i ] = contents[ i-1 ];
+        std::cout << i << std::endl;
+      }
+      contents[0] = data;
+    size_++;
+  }
+}
 
 
 
