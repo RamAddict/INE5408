@@ -8,7 +8,7 @@
     list.clear();
     REQUIRE( list.empty() == true );
   }
-  TEST_CASE("TESTANDO ADICIONAR ELEMENTOS ATRAS E NA FRENTE" "[push_back()][empty()]"){
+  TEST_CASE("TESTANDO ADICIONAR ELEMENTOS ATRAS E NA FRENTE E NO MEIO E INSERT_SORTED" "[push_back()][empty()][insert()]"){
     structures::ArrayList<int> list{};
     REQUIRE( list.empty() == true );
     list.push_back( 2 );
@@ -16,6 +16,16 @@
     list.push_front( 20 );
     CHECK( list[0] == 20 );
     CHECK( list[1] == 2 );
+    list.insert(10, 1); // 20, 10 , 2, 0
+    CHECK( list[1] == 10 );
+    CHECK( list[2] == 2 );
+    CHECK( list[0] == 20 ); 
+    list.insert_sorted(0);
+    CHECK( list[0] == 0 );
+    CHECK( list[1] == 2 );
+    CHECK( list[2] == 10 );
+    CHECK( list[3] == 20 );
+    CHECK_THROWS( list[-1] );
   }
   TEST_CASE("TESTANDO ENCHER E ESVAZIAR", "[push_back()][empty()][full()]"){
     structures::ArrayList<int> list{};

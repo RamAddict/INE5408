@@ -18,8 +18,8 @@ public:
     void clear();
     void push_back(const T& data);
     void push_front(const T& data);
-    // void insert(const T& data, std::size_t index);
-    // void insert_sorted(const T& data);
+    void insert(const T& data, std::size_t index);
+    void insert_sorted(const T& data);
     T pop(std::size_t index);
     T pop_back();
     T pop_front();
@@ -177,14 +177,42 @@ void ArrayList<T>::push_front(const T& data) {
   } else {
       for( auto i = size_; i != 0; i--) {
         contents[ i ] = contents[ i-1 ];
-        std::cout << i << std::endl;
       }
       contents[0] = data;
     size_++;
   }
 }
 
-
+template<typename T>
+void ArrayList<T>::insert(const T& data, std::size_t index) {
+  if (size_ == max_size_ || index >= max_size_) {
+    throw std::out_of_range("out of range");
+  } else {
+      for( auto i = size_; i != index; i--) {
+        contents[ i ] = contents[ i-1 ];
+      }
+      contents[index] = data;
+    size_++;
+  }
+}
+template<typename T>
+void ArrayList<T>::insert_sorted(const T& data) {
+  if (size_ == max_size_) {
+    throw std::out_of_range("out of range");
+  } else {
+    push_back(data);
+    for (auto j = 0; j != size_-1; j++) {
+      for (auto i = 0; i != size_-1; i++) {
+        auto rot = contents[i];
+        if (contents[i] > contents[i+1]) {
+          rot = contents[i+1];
+          contents[i+1] = contents[i];
+          contents[i] = rot;
+        }
+      }
+    }
+  }
+}
 
 
 
