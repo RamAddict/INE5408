@@ -1,5 +1,5 @@
 
-#include "ArrayList.h"
+#include "String_list.h"
 
 
   TEST_CASE("TESTANDO VAZIO" "[clear()][empty()]"){
@@ -19,7 +19,7 @@
     list.insert(10, 1); // 20, 10 , 2, 0
     CHECK( list[1] == 10 );
     CHECK( list[2] == 2 );
-    CHECK( list[0] == 20 ); 
+    CHECK( list[0] == 20 );
     list.insert_sorted(0);
     CHECK( list[0] == 0 );
     CHECK( list[1] == 2 );
@@ -84,6 +84,12 @@
   }
     REQUIRE( list.contains(1) );
     REQUIRE( !list.contains(1000) );
+  }
+  TEST_CASE("creating and ArrayListSting") {
+    {
+    structures::ArrayListString list{};
+    }
+    structures::ArrayListString list{12};
   }
 
 

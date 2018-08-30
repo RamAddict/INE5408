@@ -14,7 +14,6 @@ public:
     ArrayList();
     ArrayList(std::size_t max_size);
     ~ArrayList();
-
     void clear();
     void push_back(const T& data);
     void push_front(const T& data);
@@ -26,8 +25,8 @@ public:
     void remove(const T& data);
     bool full() const;
     bool empty() const;
-    bool contains(const T& data) const;
-    std::size_t find(const T& data) const;
+    bool contains(const T& data) const; //verificar se as strings sao iguas com o metodo std:para string
+    std::size_t find(const T& data) const;//todos que precisar comparar vai precisar usar metodo str
     std::size_t size() const;
     std::size_t max_size() const;
     T& at(std::size_t index);
@@ -35,7 +34,7 @@ public:
     const T& at(std::size_t index) const;
     const T& operator[](std::size_t index) const;
 
-private:
+protected:
     T* contents;
     std::size_t size_;
     std::size_t max_size_;
@@ -215,37 +214,47 @@ void ArrayList<T>::insert_sorted(const T& data) {
 }
 class ArrayListString : public ArrayList<char *> {
  public:
-    //! ...
-    ArrayListString() : ArrayList() {}
-    //! ...
-    explicit ArrayListString(std::size_t max_size) : ArrayList(max_size) {}
-    //! ...
-    ~ArrayListString();
-    //! ...
-    void clear();
-    //! ...
-    void push_back(const char *data);
-    //! ...
-    void push_front(const char *data);
-    //! ...
-    void insert(const char *data, std::size_t index);
-    //! ...
-    void insert_sorted(const char *data);
-    //! ...
-    char *pop(std::size_t index);
-    //! ...
-    char *pop_back();
-    //! ...
-    char *pop_front();
-    //! ...
-    void remove(const char *data);
-    //! ...
-    bool contains(const char *data);
-    //! ...
-    std::size_t find(const char *data);
+     //! ...
+     ArrayListString() : ArrayList() {}
+     //! ...
+     explicit ArrayListString(std::size_t max_size) : ArrayList(max_size) {}
+     //! ...
+     ~ArrayListString();
+//     //! ...
+//     void clear();
+//     //! ...
+//     void push_back(const char *data);
+//     //! ...
+//     void push_front(const char *data);
+//     //! ...
+//     void insert(const char *data, std::size_t index);
+//     //! ....criar uma copia da data char* tamanh lenght+1 copiar valor
+//     apontado por data pro endereço novo
+//     void insert_sorted(const char *data);
+//     //! ..
+//     char *pop(std::size_t index);
+//     //! ...
+//     char *pop_back();
+//     //! ...
+//     char *pop_front();
+//     //! ...
+//     void remove(const char *data);
+//     //! ...
+//     bool contains(const char *data);
+//     //! ...
+//     std::size_t find(const char *data);
+// };
+
 };
 
-}  // namespace structures
+ArrayListString::~ArrayListString() {
+
+  //   for (auto i = 0; i != size_; i++) {
+  //     delete contents[i];
+  //   }
+  //   delete[] contents;
+  //
+}
 
 
 
