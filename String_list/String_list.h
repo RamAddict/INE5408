@@ -5,7 +5,7 @@
 #include <cstdint>
 #include <iostream>
 #include "catch.h"
-
+#include <cstring>
 namespace structures {
 
 template<typename T>
@@ -221,13 +221,13 @@ class ArrayListString : public ArrayList<char *> {
      //! ...
      ~ArrayListString();
 //     //! ...
-//     void clear();
+     void clear();
 //     //! ...
-//     void push_back(const char *data);
+     void push_back(const char *data);
 //     //! ...
-//     void push_front(const char *data);
+     void push_front(const char *data);
 //     //! ...
-//     void insert(const char *data, std::size_t index);
+     void insert(const char *data, std::size_t index);
 //     //! ....criar uma copia da data char* tamanh lenght+1 copiar valor
 //     apontado por data pro endereço novo
 //     void insert_sorted(const char *data);
@@ -249,14 +249,32 @@ class ArrayListString : public ArrayList<char *> {
 
 ArrayListString::~ArrayListString() {
 
-  //   for (auto i = 0; i != size_; i++) {
-  //     delete contents[i];
-  //   }
-  //   delete[] contents;
-  //
+  for (auto i = 0; i != size_; i++) {
+      delete contents[i];
+  }
 }
+void ArrayListString::clear() {
+  for (auto i = 0; i != size_; i++) {
+      delete contents[i];
+  }
+  ArrayList<char*>::clear();
+}
+void ArrayListString::push_back(const char* data) {
+  
+  char* datanew = new char[strlen(data) + 1];
+  snprintf(datanew, strlen(data)+1, "%s", data);
+  
+  ArrayList<char*>::push_back(datanew);
+}
+void ArrayListString::push_front(const char* data) {
+  char* datanew = new char[strlen(data) + 1];
+  snprintf(datanew, strlen(data)+1, "%s", data);
 
-
+  ArrayList<char*>::push_front(datanew);
+}
+void ArrayListString::insert(const char* data, std::size_t index) {
+  
+}
 
 
 
