@@ -1,45 +1,73 @@
+  // Copyright [2018] <Arthur>"
 #ifndef STRUCTURES_ARRAY_LIST_H
 #define STRUCTURES_ARRAY_LIST_H
 
 #define CATCH_CONFIG_MAIN
-#include <cstdint>
-#include <iostream>
+
 #include "catch.h"
 #include <cstring>
+#include <cstdint>
+#include <stdexcept>  // C++ exceptions
 namespace structures {
 
 template<typename T>
+  //! ..
 class ArrayList {
-public:
+ public:
+    //! ..
     ArrayList();
-    ArrayList(std::size_t max_size);
+    //! ..
+    explicit ArrayList(std::size_t max_size);
     ~ArrayList();
+    //! ..
     void clear();
+    //! ..
     void push_back(const T& data);
+    //! ..
     void push_front(const T& data);
+    //! ..
     void insert(const T& data, std::size_t index);
+    //! ..
     void insert_sorted(const T& data);
+    //! ..
     T pop(std::size_t index);
+    //! ..
     T pop_back();
+    //! ..
     T pop_front();
+    //! ..
     void remove(const T& data);
+    //! ..
     bool full() const;
+    //! ..
     bool empty() const;
-    bool contains(const T& data) const; //verificar se as strings sao iguas com o metodo std:para string
-    std::size_t find(const T& data) const;//todos que precisar comparar vai precisar usar metodo str
+    //! ..
+    bool contains(const T& data) const;  // verificar se as strings sao iguas
+    // com o metodo std:para string
+    //! ..
+    std::size_t find(const T& data) const;  // todos que precisar comparar vai
+    //! precisar usar metodo str
     std::size_t size() const;
+    //! ..
     std::size_t max_size() const;
+    //! ..
     T& at(std::size_t index);
+    //! ..
     T& operator[](std::size_t index);
+    //! ..
     const T& at(std::size_t index) const;
+    //! ..
     const T& operator[](std::size_t index) const;
 
-protected:
+ protected:
+    //! .
     T* contents;
+    //! .
     std::size_t size_;
+    //! .
     std::size_t max_size_;
-
-    const static auto DEFAULT_MAX = 10u;
+    //! .
+    static const auto DEFAULT_MAX = 10u;
 };
 
 template<typename T>
@@ -61,24 +89,23 @@ ArrayList<T>::ArrayList(std::size_t max_size):
 }
 
 template<typename T>
-ArrayList<T>::~ArrayList()
-{
+ArrayList<T>::~ArrayList() {
   delete[] contents;
 }
 
 template<typename T>
-void ArrayList<T>::clear(){
+void ArrayList<T>::clear() {
   size_ = 0;
 }
 
 template<typename T>
-bool ArrayList<T>::empty() const{
+bool ArrayList<T>::empty() const {
   return ( size_ == 0 );
 }
 
 template<typename T>
-void ArrayList<T>::push_back(const T& data){
-  if( size_ == max_size_ ){
+void ArrayList<T>::push_back(const T& data) {
+  if (size_ == max_size_) {
     throw std::out_of_range("out of range.");
   } else {
     contents[ size_ ] = data;
@@ -87,17 +114,17 @@ void ArrayList<T>::push_back(const T& data){
 }
 
 template<typename T>
-bool ArrayList<T>::full() const{
+bool ArrayList<T>::full() const {
   return ( size_ == max_size_ );
 }
 
 template<typename T>
-T ArrayList<T>::pop(std::size_t index){
-  if( size_ <= index ) {
+T ArrayList<T>::pop(std::size_t index) {
+  if (size_ <= index) {
     throw std::out_of_range("out of range");
   } else {
     auto rot = contents[ index ];
-    for( auto i = index; i != size_ -1; i++) {
+    for (auto i = index; i != size_ -1; i++) {
         contents[ i ] = contents[ i+1 ];
     }
     size_--;
@@ -106,8 +133,7 @@ T ArrayList<T>::pop(std::size_t index){
 }
 template<typename T>
 std::size_t ArrayList<T>::find(const T& data) const {
-    for(auto i = 0; i != max_size_; i++)
-    {
+    for (auto i = 0; i != size_; i++) {
          if (data == contents[ i ]) {
              return i;
          }
@@ -155,15 +181,11 @@ bool ArrayList<T>::contains(const T& data) const {
 }
 template<typename T>
 T ArrayList<T>::pop_back() {
-  auto rex = contents[size_ - 1 ];
-  pop(size_ - 1);
-  return rex;
+  return pop(size_ - 1);
 }
 template<typename T>
 T ArrayList<T>::pop_front() {
-  auto rex = contents[0];
-  pop(0);
-  return rex;
+return pop(0);
 }
 template<typename T>
 void ArrayList<T>::remove(const T& data) {
@@ -174,7 +196,7 @@ void ArrayList<T>::push_front(const T& data) {
   if (size_ == max_size_) {
     throw std::out_of_range("out of range");
   } else {
-      for( auto i = size_; i != 0; i--) {
+      for (auto i = size_; i != 0; i--) {
         contents[ i ] = contents[ i-1 ];
       }
       contents[0] = data;
@@ -187,7 +209,7 @@ void ArrayList<T>::insert(const T& data, std::size_t index) {
   if (size_ == max_size_ || index >= max_size_) {
     throw std::out_of_range("out of range");
   } else {
-      for( auto i = size_; i != index; i--) {
+      for (auto i = size_; i != index; i--) {
         contents[ i ] = contents[ i-1 ];
       }
       contents[index] = data;
@@ -212,58 +234,53 @@ void ArrayList<T>::insert_sorted(const T& data) {
     }
   }
 }
+  //! .
 class ArrayListString : public ArrayList<char *> {
  public:
+    //! ...
+    ArrayListString() : ArrayList() {}
+    //! ...
+    explicit ArrayListString(std::size_t max_size) : ArrayList(max_size) {}
+    //! ...
+    ~ArrayListString();
+    //! ...
+    void clear();
+    //! ...
+    void push_back(const char *data);
+    //! ...
+      void push_front(const char *data);
+    //! ...
+    void insert(const char *data, std::size_t index);
+    //! ..
+    void insert_sorted(const char *data);
+    //! ..
+    char *pop(std::size_t index);
      //! ...
-     ArrayListString() : ArrayList() {}
+    char *pop_back();
      //! ...
-     explicit ArrayListString(std::size_t max_size) : ArrayList(max_size) {}
+    char *pop_front();
      //! ...
-     ~ArrayListString();
-//     //! ...
-     void clear();
-//     //! ...
-     void push_back(const char *data);
-//     //! ...
-     void push_front(const char *data);
-//     //! ...
-     void insert(const char *data, std::size_t index);
-//     //! ....criar uma copia da data char* tamanh lenght+1 copiar valor
-//     apontado por data pro endereço novo
-//     void insert_sorted(const char *data);
-//     //! ..
-//     char *pop(std::size_t index);
-//     //! ...
-//     char *pop_back();
-//     //! ...
-//     char *pop_front();
-//     //! ...
-//     void remove(const char *data);
-//     //! ...
-//     bool contains(const char *data);
-//     //! ...
-//     std::size_t find(const char *data);
-// };
-
+    void remove(const char *data);
+     //! ...
+    bool contains(const char *data);
+     //! ...
+    std::size_t find(const char *data);
 };
 
 ArrayListString::~ArrayListString() {
-
-  for (auto i = 0; i != size_; i++) {
+  for (auto i = 0; i != static_cast<int>(size_); i++) {
       delete contents[i];
   }
 }
 void ArrayListString::clear() {
-  for (auto i = 0; i != size_; i++) {
+  for (auto i = 0; i != static_cast<int>(size_); i++) {
       delete contents[i];
   }
   ArrayList<char*>::clear();
 }
 void ArrayListString::push_back(const char* data) {
-  
   char* datanew = new char[strlen(data) + 1];
   snprintf(datanew, strlen(data)+1, "%s", data);
-  
   ArrayList<char*>::push_back(datanew);
 }
 void ArrayListString::push_front(const char* data) {
@@ -273,24 +290,61 @@ void ArrayListString::push_front(const char* data) {
   ArrayList<char*>::push_front(datanew);
 }
 void ArrayListString::insert(const char* data, std::size_t index) {
-  
+  char* datanew = new char[strlen(data) + 1];
+  snprintf(datanew, strlen(data)+1, "%s", data);
+
+  ArrayList<char*>::insert(datanew, index);
 }
+void ArrayListString::insert_sorted(const char *data) {
+  char* datanew = new char[strlen(data) + 1];
+  snprintf(datanew, strlen(data)+1, "%s", data);
 
+  ArrayList<char*>::push_back(datanew);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-} // namespace structures
+    for (auto j = 0; j != static_cast<int>(size_-1); j++) {
+      for (auto i = 0; i != static_cast<int>(size_-1); i++) {
+        auto rot = contents[i];
+        if (strcmp(contents[i], contents[i+1]) > 0) {
+          rot = contents[i+1];
+          contents[i+1] = contents[i];
+          contents[i] = rot;
+        }
+      }
+    }
+}
+char* ArrayListString::pop(std::size_t index) {
+    if (size_ <= index) {
+    throw std::out_of_range("out of range");
+  } else {
+    char* datanew = new char[strlen(contents[index]) + 1];
+    snprintf(datanew, strlen(contents[index])+1, "%s", contents[index]);
+    delete[] contents[index];
+    for (auto i = index; i != size_ -1; i++) {
+        contents[ i ] = contents[ i+1 ];
+    }
+    size_--;
+    return datanew;
+  }
+}
+char* ArrayListString::pop_back() {
+  return pop(size_-1);
+}
+char* ArrayListString::pop_front() {
+  return pop(0);
+}
+void ArrayListString::remove(const char *data) {
+  pop(find(data));
+}
+std::size_t ArrayListString::find(const char* data) {
+      for (auto i = 0; i != static_cast<int>(size_); i++) {
+         if (strcmp(data, contents[i]) == 0) {
+             return i;
+         }
+    }
+    return size_;
+}
+bool ArrayListString::contains(const char *data) {
+  return !(find(data) == size_ );
+}
+}  // namespace structures
 #endif

@@ -85,13 +85,35 @@
     REQUIRE( list.contains(1) );
     REQUIRE( !list.contains(1000) );
   }
-  TEST_CASE("creating and ArrayListSting") {
+  TEST_CASE("creating an ArrayListSting") {
     {
     structures::ArrayListString list{};
     }
     structures::ArrayListString list{12};
   }
+  TEST_CASE("insert sorted") {
+    const char *city[10] = {"Blumenau", "Chapeco", "Criciuma", \
+    "Florianopolis", "Itajai", "Jaragua_do_Sul", "Joinville", \
+    "Lages", "Palhoca", "Sao_Jose"};
+    structures::ArrayListString list{};
+    for (auto i = 9; i >= 0; --i) {
+        list.insert_sorted(city[i]);
+    }
+    for (auto i = 0; i < 10; ++i) {
+        CHECK_THAT(city[i], Catch::Matchers::Equals(list[i]));
+    }
 
+    list.clear();
+
+    // list.insert_sorted("10");
+    // list.insert_sorted("-10");
+    // list.insert_sorted("42");
+    // list.insert_sorted("0");
+    // CHECK("-10", list[0]);
+    // CHECK_THAT("0", list[1]);
+    // CHECK_THAT("10", list[2]);
+    // CHECK_THAT("42", list[3]);
+  }
 
 
 
