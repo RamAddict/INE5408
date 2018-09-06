@@ -3,9 +3,8 @@
 #include "catch.h"
 
 TEST_CASE("creating linked_list") {
-  
+  structures::LinkedList<int> list{};
 }
-
 
 
 

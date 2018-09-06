@@ -3,6 +3,7 @@
 #define STRUCTURES_LINKED_LIST_H
 
 #include <cstdint>
+#include <stdexcept>
 #define CATCH_CONFIG_MAIN
 
 namespace structures {
@@ -12,19 +13,18 @@ template<typename T>
 class LinkedList {
  public:
     //! ...
-    LinkedList() {
-
-    };  // construtor padrão
+    LinkedList();
+      // construtor padrão
     //! ...
-    //~LinkedList();  // destrutor
+    ~LinkedList();  // destrutor
     //! ...
-    //void clear();  // limpar lista
+    void clear();  // limpar lista
     //! ...
     //void push_back(const T& data);  // inserir no fim
     //! ...
     //void push_front(const T& data);  // inserir no início
     //! ...
-    //void insert(const T& data, std::size_t index);  // inserir na posição
+    void insert(const T& data, std::size_t index);  // inserir na posição
     //! ...
     //void insert_sorted(const T& data);  // inserir em ordem
     //! ...
@@ -93,8 +93,47 @@ class LinkedList {
 
     Node* head{nullptr};
     std::size_t size_{0u};
+
 };
 
+template <typename T>
+LinkedList<T>::LinkedList() {
+  Node* head{nullptr};
+  std::size_t size_{0u};
+}
+template <typename T>
+LinkedList<T>::~LinkedList() {
+  auto jair = head;
+  for (int i = 0; i != size_; i++) {
+    jair = jair->next();
+    delete[] jair;
+  }
+  delete[] head;
+}
+template <typename T>
+void LinkedList<T>::clear() {
+  auto jair = head;
+  for (int i = 0; i != size_; i++) {
+    jair = jair->next();
+    delete[] jair;
+  }
+  size_ = 0;
+}
+template <typename T>
+void LinkedList<T>::insert(const T& data, std::size_t index) {
+  if (index > size_) {
+    throw std::out_of_range("bigger than size");
+  } else {
+    Node newNode(data);
+    auto previous_element = head;
+    for (int i = 0; i != index -1; i++) {
+      previous_element = previous_element->next();
+    }
+    newNode.next_ = previous_element.next();
+    previous_element.next_ = newNode.next_;
+    size_++;
+  }
+}
 }  // namespace structures
 
 #endif
