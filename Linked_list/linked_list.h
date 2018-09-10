@@ -21,7 +21,7 @@ class LinkedList {
     //! ...
     void clear();  // limpar lista
     //! ...
-    //void push_back(const T& data);  // inserir no fim
+    void push_back(const T& data);  // inserir no fim
     //! ...
     void push_front(const T& data);  // inserir no início
     //! ...
@@ -104,12 +104,12 @@ LinkedList<T>::LinkedList() {
 }
 template <typename T>
 LinkedList<T>::~LinkedList() {
-  // auto jair = head;
-  // for (int i = 0; i != size_; i++) {
-  //   jair = jair->next();
-  //   delete jair;
-  // }
-  //delete[] head;
+  auto jair = head;
+  for (int i = 0; i != size_; i++) {
+    jair = jair->next();
+    delete jair;
+  }
+  delete[] head;
 }
 template <typename T>
 void LinkedList<T>::clear() {
@@ -122,22 +122,17 @@ void LinkedList<T>::clear() {
 }
 template <typename T>
 void LinkedList<T>::insert(const T& data, std::size_t index) {
-  // if (index > size_) {
-  //   throw std::out_of_range("bigger than size");
-  // } else if (size_ == 0) {
-  //   Node newNode(data);
-  //   auto former = head;  // pega o head
-  //   &former = newNode;
-  // } else {
-  //   Node newNode(data);
-  //   auto previous_element = &head;
-  //   for (int i = 0; i != index - 1; i++) {
-  //     previous_element = previous_element->next();
-  //   }
-  //   newNode.next_ = previous_element.next();
-  //   previous_element.next_ = &newNode;
-  //   size_++;
-  // }
+  if (index > size_) {
+    throw std::out_of_range("bigger than size");
+  } else if (empty()) {
+    push_front(data);
+  } else if (index == size_) {
+    push_back(data);
+  } else {
+    auto newNode = new Node(data);
+    
+    size_++;
+  }
 }
 template <typename T>
 bool LinkedList<T>::empty() const{
@@ -149,13 +144,12 @@ bool LinkedList<T>::empty() const{
 }
 template <typename T>
 void LinkedList<T>::push_front(const T& data) {
-  Node* newNode(data);
+  Node* newNode = new Node(data);
   if (!empty()) {
-    newNode.next(head);  // o próximo de newNode será para quem head está apontando
+    newNode->next(head);  // o próximo de newNode será para quem head está apontando
   }
     head = newNode; // head passa a apontar pro novo
     size_++;
-
 }
 template <typename T>
 std::size_t LinkedList<T>::size() const {
@@ -171,6 +165,20 @@ T& LinkedList<T>::at(std::size_t index) {
       runner = runner->next();
     }
     return runner->data();
+  }
+}
+template<typename T>
+void LinkedList<T>::push_back(const T& data) {
+  Node* newNode = new Node(data);
+  if (empty()) {
+    push_front(data);
+  } else {
+    auto runner = head;
+    for (auto i = 0; i != size_-1; i++) {
+      runner = runner->next();
+    }
+    runner->next(newNode);
+    size_++;
   }
 }
 }  // namespace structures
