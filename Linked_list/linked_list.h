@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <stdexcept>
 #include <memory>
+#include <iostream>
 #define CATCH_CONFIG_MAIN
 
 namespace structures {
@@ -27,15 +28,15 @@ class LinkedList {
     //! ...
     void insert(const T& data, std::size_t index);  // inserir na posição
     //! ...
-    //void insert_sorted(const T& data);  // inserir em ordem
+    void insert_sorted(const T& data);  // inserir em ordem
     //! ...
     T& at(std::size_t index);  // acessar um elemento na posição index
     //! ...
-    //T pop(std::size_t index);  // retirar da posição
+    T pop(std::size_t index);  // retirar da posição
     //! ...
-    //T pop_back();  // retirar do fim
+    T pop_back();  // retirar do fim
     //! ...
-    //T pop_front();  // retirar do início
+    T pop_front();  // retirar do início
     //! ...
     //void remove(const T& data);  // remover específico
     //! ...
@@ -130,9 +131,39 @@ void LinkedList<T>::insert(const T& data, std::size_t index) {
     push_back(data);
   } else {
     auto newNode = new Node(data);
-    
+    auto runner = head;
+    for (auto i = 0; i != index-1; i++) {
+      runner = runner->next();
+    }
+    newNode->next(runner->next());
+    runner->next(newNode);
     size_++;
   }
+}
+template<typename T>
+void LinkedList<T>::insert_sorted(const T& data) {
+    push_back(data);
+    T* a = (T*) malloc(sizeof(T)*size_);
+    auto temp = head;
+    for (auto i = 0; i != size_; i++) {
+      a[i] = temp->data();
+      temp = temp->next();
+  }
+  for (auto l = 0; l != size_; l++){
+    for (auto i = 0; i != size_-1; i++) {
+      if (a[i+1] < a[i]) {
+        auto k = a[i+1];
+        a[i+1] = a[i];
+        a[i] = k;
+      }
+    }
+  }
+  auto siz = size_;
+  clear();
+  for (int i = 0; i != siz; i++) {
+    push_back(a[i]);
+  }
+  free(a);
 }
 template <typename T>
 bool LinkedList<T>::empty() const{
@@ -180,6 +211,45 @@ void LinkedList<T>::push_back(const T& data) {
     runner->next(newNode);
     size_++;
   }
+}
+template<typename T>
+T LinkedList<T>::pop_back() {
+  auto value = at(static_cast<int>(size_-1));
+  auto naba = head;
+  for (int i = 0; i != size_; i++) {
+    naba = naba->next();
+  }
+  delete[] naba;
+  size_--;
+  return value;
+}
+template<typename T>
+T LinkedList<T>::pop_front() {
+  auto naba = head;
+  auto value = at(0);
+  head = head->next();
+  delete[] naba;
+  size_--;
+  return value;
+}
+template<typename T>
+T LinkedList<T>::pop(std::size_t index) {
+  if (index == 0) {
+    return pop_front();
+  } else if (index == size_-1) {
+    return pop_back();
+  } else {
+
+    auto result = at(index);
+    auto runner = head;
+    for (auto i = 0; i != index-1; i++) {
+      runner = runner->next();
+    }
+    delete[] (runner->next());
+    runner->next((runner->next())->next());
+    return result;
+  }
+  
 }
 }  // namespace structures
 #endif
