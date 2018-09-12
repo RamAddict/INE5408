@@ -38,13 +38,13 @@ class LinkedList {
     //! ...
     T pop_front();  // retirar do início
     //! ...
-    //void remove(const T& data);  // remover específico
+    void remove(const T& data);  // remover específico
     //! ...
     bool empty() const;  // lista vazia
     //! ...
-    //bool contains(const T& data) const;  // contém
+    bool contains(const T& data) const;  // contém
     //! ...
-    //std::size_t find(const T& data) const;  // posição do dado
+    std::size_t find(const T& data) const;  // posição do dado
     //! ...
     std::size_t size() const;  // tamanho da lista
     //! ...
@@ -239,17 +239,40 @@ T LinkedList<T>::pop(std::size_t index) {
   } else if (index == size_-1) {
     return pop_back();
   } else {
-
     auto result = at(index);
     auto runner = head;
+    auto to_delete = runner->next(); 
     for (auto i = 0; i != index-1; i++) {
       runner = runner->next();
+      to_delete = to_delete->next();
     }
-    delete[] (runner->next());
-    runner->next((runner->next())->next());
+    runner->next(to_delete->next());
+    size_--;
     return result;
   }
   
+}
+template<typename T>
+void LinkedList<T>::remove(const T& data) {
+  auto hm = find(data);
+  if (hm != size()) {
+    pop(hm);
+  }
+}
+template<typename T>
+std::size_t LinkedList<T>::find(const T& data) const {
+  auto runner = head;
+  for (auto i = 0; i != size_; i++) {
+    if (data == runner->data()) {
+      return i;
+    }
+    runner = runner->next();
+  }
+  return size_;
+}
+template<typename T>
+bool LinkedList<T>::contains(const T& data) const {
+  return !(find(data) == size());
 }
 }  // namespace structures
 #endif

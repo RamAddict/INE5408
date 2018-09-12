@@ -60,7 +60,21 @@ TEST_CASE("creating linked_list") {
       list.pop(1); // 90
       CHECK(list.at(0) == 8);
       CHECK(list.at(1) == 143);
-      
+      CHECK(list.find(143) == 1);
+      list.insert(100, 1);
+      list.insert(1000, 1);
+      CHECK(list.at(1) == 1000);
+      CHECK(list.at(2) == 100);
+      CHECK(list.find(100) == 2);
+      CHECK(list.find(143) == 3);
+      CHECK(list.find(1020) == 4);
+      list.remove(100);
+      CHECK(list.at(0) == 8);
+      CHECK(list.at(1) == 1000);
+      CHECK(list.at(2) == 143);
+      CHECK_THROWS(list.at(3));
+      CHECK(list.contains(100) == false);
+      CHECK(list.contains(143) == true);
     }
 
 
