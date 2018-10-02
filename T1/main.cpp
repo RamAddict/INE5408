@@ -1,18 +1,20 @@
 #include <iostream>
+#include <string>
 #include <fstream>
 #include <vector>
 #include <array>
 #include <stack>
 #include <sstream>
 #include <list>
-
+#include <map>
   //! gets filename from input stream
 std::string get_file_name();
   //! check if the file is open and stores each char of the file 
 std::list<char> create_char_array_of_file(std::fstream& tfile);
   //! gets one of the attributes from every image and pushes it onto the list
 void get_atribute(std::string line, std::string info, std::list<std::string>& atribute, std::string::size_type j);
-
+  //! algorithm
+std::string labelling(std::string name, std::string height, std::string width, std::string data);
 int main() {
     auto file_name = get_file_name();
     
@@ -86,20 +88,21 @@ int main() {
         // throw std::out_of_range("pilha nao vazia");
         std::cout << "error"<< std::endl;
     }
-    for (auto it: name) {
-        std::cout << it;
+    // for (auto it: name) {
+    //     std::cout << it << " ";
+    // }
+    //     for (auto it: height) {
+    //     std::cout << it << " ";
+    // std::cout << data.size();
+    // for (auto it: data) {
+    // std::cout << it << "";
+    // }
+    for (auto it: data) {
+        data.remove("");
     }
-        for (auto it: height) {
-        std::cout << it;
-    }
-            for (auto it: width) {
-        std::cout << it;
-    }
-            for (auto it: data) {
-        std::cout << it << std::endl;
-    }
-        
-        
+///////////////////////////////////////////// segunda parte
+    labelling(name.front(), height.front(), width.front(), data.front());
+
     return 0;
 }
 
@@ -120,4 +123,46 @@ void get_atribute(std::string line, std::string info, std::list<std::string>& at
             name_ = name_ +""+ (line[k]);
         }
         atribute.push_back(name_);
+}
+std::string labelling(std::string name, std::string height, std::string width, std::string data) {
+    auto _height = stoi(height);
+    auto _width = stoi(width);
+    std::cout << name << " rola " << _height << " penis " << _width << "caralho" << data;
+    char copy[_height][_width];
+    char reference[_height][_width];
+    //std::pair(int, int) copy;
+    //std::pair(int, int) original;
+    
+     for (int i = 0; i != _height; i++)
+         for (int j = 0; j != _width; j++) {
+            copy[i][j] = '0'; // de baixo pra cima 
+         }
+    // for (int i = 0; i != _width; i++) {
+    //      for (int j = 0; j != _height; j++) {
+    //         std::cout << copy[j][i] <<" "; // de baixo pra cima 
+    //      }
+    //         std::cout << "\n";
+    // }
+
+    int j = 0;
+    for (int i = 0; i != data.size(); i++) {
+        
+        if (i%_width == 0 && i != 0) {
+            j++;
+        }
+        /////////////////////////////////////////////ESQUERDA PRA DIREITA
+        reference[j][i%_width] = data.at(i); 
+    }
+    std::cout << std::endl;
+    for (int i = 0; i != _width; i++) {
+        for (int j = 0; j != _height; j++) {
+            std::cout << reference[i][j] << std::endl; // <<" i: " << i << " j: " << j << std::endl; de baixo pra cima 
+        }
+            //std::cout << "\n";
+    }
+    
+    if (reference[1][3] == '1')
+        std::cout << "buceta";
+
+    return "";
 }
