@@ -7,6 +7,9 @@
 #include <sstream>
 #include <list>
 #include <map>
+#include <vector>
+#include <queue>
+#include <typeinfo>
   //! gets filename from input stream
 std::string get_file_name();
   //! check if the file is open and stores each char of the file 
@@ -14,7 +17,7 @@ std::list<char> create_char_array_of_file(std::fstream& tfile);
   //! gets one of the attributes from every image and pushes it onto the list
 void get_atribute(std::string line, std::string info, std::list<std::string>& atribute, std::string::size_type j);
   //! algorithm
-std::string labelling(std::string name, std::string height, std::string width, std::string data);
+int labelling(std::string name, std::string height, std::string width, std::string data);
 int main() {
     auto file_name = get_file_name();
     
@@ -94,14 +97,16 @@ int main() {
     //     for (auto it: height) {
     //     std::cout << it << " ";
     // std::cout << data.size();
-    // for (auto it: data) {
-    // std::cout << it << "";
-    // }
     for (auto it: data) {
         data.remove("");
     }
+    std::cout<<data.back();
 ///////////////////////////////////////////// segunda parte
-    labelling(name.front(), height.front(), width.front(), data.front());
+    auto size = name.size();
+    for (int i = 0; i != size-1; i++) {
+        std::cout << name.front() << " " << labelling(name.front(), height.front(), width.front(), data.front()) << std::endl;
+        name.pop_front();height.pop_front();width.pop_front();data.pop_front();
+    }
 
     return 0;
 }
@@ -124,10 +129,10 @@ void get_atribute(std::string line, std::string info, std::list<std::string>& at
         }
         atribute.push_back(name_);
 }
-std::string labelling(std::string name, std::string height, std::string width, std::string data) {
+int labelling(std::string name, std::string height, std::string width, std::string data) {
     auto _height = stoi(height);
     auto _width = stoi(width);
-    std::cout << name << " rola " << _height << " penis " << _width << "caralho" << data;
+    //std::cout << name << " rola " << _height << " penis " << _width << "caralho" << data;
     char copy[_height][_width];
     char reference[_height][_width];
     //std::pair(int, int) copy;
@@ -152,17 +157,43 @@ std::string labelling(std::string name, std::string height, std::string width, s
         }
         /////////////////////////////////////////////ESQUERDA PRA DIREITA
         reference[j][i%_width] = data.at(i); 
+        //std::cout<< "is: " << reference[j][i%_width] << " expected: " << data.at(i) <<std::endl;
     }
-    std::cout << std::endl;
-    for (int i = 0; i != _width; i++) {
-        for (int j = 0; j != _height; j++) {
-            std::cout << reference[i][j] << std::endl; // <<" i: " << i << " j: " << j << std::endl; de baixo pra cima 
+    //std::cout << "\n";
+    char label = '1';
+    std::queue<std::pair<int, int>> kiwi;
+    for (int i = 0; i != _height; i++) {
+        for (int k = 0; k != _width; k++) {
+            //std::cout << reference[i][k]; // <<" i: " << i << " j: " << j << std::endl; de baixo pra cima 
+            if (reference[i][k] == '1' && copy[i][k] == '0') {
+                kiwi.push(std::make_pair(i, k));
+                while(!kiwi.empty()){
+                    auto temp = kiwi.front();
+                    kiwi.pop();
+                    //std::cout << "tipo " << typeid(label).name() << " label: " << label << " ";
+                    copy[temp.first][temp.second] = label; // pondo label na copia de zeros
+                    if (temp.first-1 >= 0)
+                        if(reference[temp.first-1][temp.second] == '1' && copy[temp.first-1][temp.second] == '0')
+                            kiwi.push(std::make_pair(temp.first-1, temp.second));
+                    if (temp.first+1 < _height)
+                        if(reference[temp.first+1][temp.second] == '1' && copy[temp.first+1][temp.second] == '0')
+                            kiwi.push(std::make_pair(temp.first+1, temp.second));
+                    if (temp.second-1 >= 0)
+                        if (reference[temp.first][temp.second-1] == '1' && copy[temp.first][temp.second-1] == '0')
+                            kiwi.push(std::make_pair(temp.first, temp.second-1));
+                    if (temp.second+1 < _width)
+                        if (reference[temp.first][temp.second+1] == '1' && copy[temp.first][temp.second+1] == '0')
+                            kiwi.push(std::make_pair(temp.first, temp.second+1));
+                }
+                int num = (int)label - 48;
+                //std::cout << "num:" << num << std::endl;
+                num++;
+                label = static_cast<char>(num + 48);
+            }
         }
             //std::cout << "\n";
     }
-    
-    if (reference[1][3] == '1')
-        std::cout << "buceta";
 
-    return "";
+    
+    return (int)label - 49;;
 }
