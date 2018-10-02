@@ -38,7 +38,7 @@ int main() {
         while(std::getline(file, line)) {
             if (line.find("data") == line.npos) {
                 temp_data = temp_data + line;
-            } 
+            }
             // for para percorrer a string da linha obtida com getline
             for (std::string::size_type i = 0; i < line.size(); ++i) {
                 if (line[i] == '<') {
@@ -72,7 +72,7 @@ int main() {
                                     get_atribute(line, info, height, j);
                                 if(info.compare("width") == 0)
                                     get_atribute(line, info, width, j);
-                                if(line.find("/data") != line.npos) {
+                                if(line.find("/data") != line.npos) {  // se encontrar /data
                                     data.push_back(temp_data);
                                     temp_data = "";
                                 }
@@ -91,22 +91,22 @@ int main() {
         // throw std::out_of_range("pilha nao vazia");
         std::cout << "error"<< std::endl;
     }
-    // for (auto it: name) {
-    //     std::cout << it << " ";
-    // }
-    //     for (auto it: height) {
-    //     std::cout << it << " ";
-    // std::cout << data.size();
+    
+
+
+
+
+
     for (auto it: data) {
         data.remove("");
     }
-    std::cout<<data.back();
+    std::cout << name.back();
 ///////////////////////////////////////////// segunda parte
-    auto size = name.size();
-    for (int i = 0; i != size-1; i++) {
-        std::cout << name.front() << " " << labelling(name.front(), height.front(), width.front(), data.front()) << std::endl;
-        name.pop_front();height.pop_front();width.pop_front();data.pop_front();
-    }
+    // auto size = name.size();
+    // for (int i = 0; i != size-1; i++) {
+    //     std::cout << name.front() << " " << labelling(name.front(), height.front(), width.front(), data.front()) << std::endl;
+    //     name.pop_front();height.pop_front();width.pop_front();data.pop_front();
+    // }
 
     return 0;
 }
