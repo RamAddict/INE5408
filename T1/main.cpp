@@ -1,15 +1,12 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <vector>
-#include <array>
 #include <stack>
-#include <sstream>
 #include <list>
 #include <map>
-#include <vector>
 #include <queue>
-#include <typeinfo>
+//#include <typeinfo>
+
   //! gets filename from input stream
 std::string get_file_name();
   //! check if the file is open and stores each char of the file 
@@ -31,6 +28,7 @@ int main() {
     
     bool read = false;
     bool data_read = false;
+    bool ident = true;
     int m = 0;
     std::string temp_data = "";
     if (file.is_open()) {
@@ -59,9 +57,13 @@ int main() {
                                 } else {  ///< se não, lança erro
                                     //throw std::out_of_range("tentou desempilhar não o topo");
                                     std::cout << "error"<< std::endl;
+                                    ident = false;
+                                    break;
                                 }
                             } else {
                                 std::cout << "error"<< std::endl;
+                                break;
+                                ident = false;
                             }
                         } else if (line[j] == '>' && !desempilha) {  ///< se encontrou fechamento e desempilhar for falso
                                 //std::cout << "empilhando: " << info << std::endl;
@@ -72,11 +74,12 @@ int main() {
                                     get_atribute(line, info, height, j);
                                 if(info.compare("width") == 0)
                                     get_atribute(line, info, width, j);
-                                if(line.find("/data") != line.npos) {  // se encontrar /data
+                                
+                                break;
+                            }
+                            if (line.find("/data") != line.npos) {  // se encontrar /data
                                     data.push_back(temp_data);
                                     temp_data = "";
-                                }
-                                break;
                             }
                         info = info + (line[j]);
                     }
@@ -90,6 +93,7 @@ int main() {
     if (!stack.empty()) {
         // throw std::out_of_range("pilha nao vazia");
         std::cout << "error"<< std::endl;
+        ident = false;
     }
     
 
@@ -100,13 +104,15 @@ int main() {
     for (auto it: data) {
         data.remove("");
     }
-    std::cout << name.back();
+    //std::cout << data.size();
 ///////////////////////////////////////////// segunda parte
-    // auto size = name.size();
-    // for (int i = 0; i != size-1; i++) {
-    //     std::cout << name.front() << " " << labelling(name.front(), height.front(), width.front(), data.front()) << std::endl;
-    //     name.pop_front();height.pop_front();width.pop_front();data.pop_front();
-    // }
+    if (ident) {
+        auto size = name.size();
+        for (int i = 0; i != size; i++) {
+            std::cout << name.front() << " " << labelling(name.front(), height.front(), width.front(), data.front()) << std::endl;
+            name.pop_front();height.pop_front();width.pop_front();data.pop_front();
+        }
+    }
 
     return 0;
 }
