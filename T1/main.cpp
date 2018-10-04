@@ -50,7 +50,7 @@ int main() {
                         if (line[j] == '>' && desempilha) {  ///< se encontrou o fechamento e desempilhar for vdd
                             if (!stack.empty()) {
                                 if (stack.top().compare(info) == 0) {  ///< checa se o alvo a desempilhar é o topo
-                                    //std::cout << "desempilhando: " << info << std::endl;
+                                    std::cout << "desempilhando: " << info << std::endl;
                                     stack.pop();  ///< se for o topo desempilha
                                     data_read = false;
                                     break;
