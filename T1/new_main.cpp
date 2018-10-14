@@ -24,7 +24,7 @@ int get_atribute_height(std::fstream& file, std::list<std::string>& height_list_
 int get_atribute_width(std::fstream& file, std::list<std::string>& width_list_);
   //! gets the data from every image and pushes it onto the list, closes the file
 int get_atribute_data(std::fstream& file, std::list<std::string>& data_list_, std::list<std::string> height_list_);
-  //! algorithm
+  //! labelling algorithm, returns the ammount of single elements in the data
 int labelling(std::string name, std::string height, std::string width, std::string data);
   //! verifica se o xml tem erros
 bool verify_xml(std::fstream& file);
@@ -45,35 +45,32 @@ int main() {
     
     file.open(file_name);
 
-
     // std::cout << "name size: ";
     get_atribute_name(file, name_list);
-    // << " ";
+    // //<< " ";
     // for (auto it: name_list) {
-    //     //std::cout << it << " ";
+    //     std::cout << it << " ";
     // }
     file.open(file_name);
     //std::cout << "height size: " <<
     get_atribute_height(file, height_list);
-    // << " ";
+    //<< " ";
     // for (auto it: height_list) {
-    //     //std::cout << it << " ";
+    //     std::cout << it << "!   !";
     // }   
     file.open(file_name);
     // std::cout << "width size: ";
     get_atribute_width(file, width_list);
     // for (auto it: width_list) {
-    //     //std::cout << it << " ";
+    //     std::cout << it << " ";
     // }
     file.open(file_name);
     // std::cout << "data size: ";
     get_atribute_data(file, data_list, height_list);
     // for (auto it: data_list) {
-    //     //std::cout << it << " ";
+    //     std::cout << it << " ";
     // }
-
-////////////////////////////// segunda parte
-
+///////////////////////////////////////////////////////////////////////// segunda parte
     auto size = name_list.size();
     for (int i = 0; i != size; i++) {
         std::cout << name_list.front() << " " << labelling(name_list.front(),
@@ -103,13 +100,15 @@ int labelling(std::string name, std::string height, std::string width, std::stri
     //std::cout << name << " rola " << _height << " penis " << _width << "caralho" << data;
     char copy[_height][_width];
     char reference[_height][_width];
+    //std::cout << _height << " height" << std::endl;
+    //std::cout << _width <<" width" << std::endl;
     //std::pair(int, int) copy;
     //std::pair(int, int) original;
     
      for (int i = 0; i != _height; i++)
          for (int j = 0; j != _width; j++) {
             copy[i][j] = '0'; // de baixo pra cima 
-         }
+         }  
     // for (int i = 0; i != _width; i++) {
     //      for (int j = 0; j != _height; j++) {
     //         std::cout << copy[j][i] <<" "; // de baixo pra cima 
@@ -128,6 +127,7 @@ int labelling(std::string name, std::string height, std::string width, std::stri
         //std::cout<< "is: " << reference[j][i%_width] << " expected: " << data.at(i) <<std::endl;
     }
     //std::cout << "\n";
+    int num = 0;
     char label = '1';
     std::queue<std::pair<int, int>> kiwi;
     for (int i = 0; i != _height; i++) {
@@ -136,34 +136,42 @@ int labelling(std::string name, std::string height, std::string width, std::stri
             if (reference[i][k] == '1' && copy[i][k] == '0') {
                 kiwi.push(std::make_pair(i, k));
                 while(!kiwi.empty()){
+                    //std::cout << "penis!";
                     auto temp = kiwi.front();
                     kiwi.pop();
                     //std::cout << "tipo " << typeid(label).name() << " label: " << label << " ";
-                    copy[temp.first][temp.second] = label; // pondo label na copia de zeros
                     if (temp.first-1 >= 0)
-                        if(reference[temp.first-1][temp.second] == '1' && copy[temp.first-1][temp.second] == '0')
+                        if(reference[temp.first-1][temp.second] == '1' && copy[temp.first-1][temp.second] == '0') {
                             kiwi.push(std::make_pair(temp.first-1, temp.second));
+                            copy[temp.first-1][temp.second] = label;
+                        }
                     if (temp.first+1 < _height)
-                        if(reference[temp.first+1][temp.second] == '1' && copy[temp.first+1][temp.second] == '0')
+                        if(reference[temp.first+1][temp.second] == '1' && copy[temp.first+1][temp.second] == '0') {
                             kiwi.push(std::make_pair(temp.first+1, temp.second));
+                            copy[temp.first+1][temp.second] = label;
+                        }
                     if (temp.second-1 >= 0)
-                        if (reference[temp.first][temp.second-1] == '1' && copy[temp.first][temp.second-1] == '0')
+                        if (reference[temp.first][temp.second-1] == '1' && copy[temp.first][temp.second-1] == '0') {
                             kiwi.push(std::make_pair(temp.first, temp.second-1));
+                            copy[temp.first][temp.second-1] = label;
+                        }
                     if (temp.second+1 < _width)
-                        if (reference[temp.first][temp.second+1] == '1' && copy[temp.first][temp.second+1] == '0')
+                        if (reference[temp.first][temp.second+1] == '1' && copy[temp.first][temp.second+1] == '0') {
                             kiwi.push(std::make_pair(temp.first, temp.second+1));
+                            copy[temp.first][temp.second+1] = label;
+                        }
+                        copy[temp.first][temp.second] = label;
+                     // pondo label na copia de zeros
                 }
-                int num = (int)label - 48;
-                std::cout << "num:" << num << std::endl;
+                //std::cout << "num:" << num << std::endl;
                 num++;
-                label = static_cast<char>(num + 48);
             }
         }
             //std::cout << "\n";
     }
 
     
-    return (int)label - 49;;
+    return num;
 }
 bool verify_xml(std::fstream& file) {
     std::stack<std::string> stack;
@@ -222,10 +230,49 @@ bool verify_xml(std::fstream& file) {
 int get_atribute_name(std::fstream& file, std::list<std::string>& name_list_) {
     if (file.is_open()){
         std::string line;
+        //file.ignore();
+        std::string arm;
+        
+        if (file.is_open()) {
+        // print file:
+        char c = file.get();
+        //std::cout << c << " canceroso";
+        while (file.good()) {
+            c = file.get();
+            //std::cout << c;
+            if (c == '<') {
+                c = file.get();
+                if (c == 'n') {
+                    c = file.get();
+                    if (c == 'a') {
+                        c = file.get();
+                        if (c == 'm') {
+                            c = file.get();
+                            file.get();
+                            while((c = file.get()) != '<' ) {
+                            arm = arm + c;
+                            }
+                            //break;
+                        }
+                    }
+                }
+             
+            }
+        }
+        }
+        else {
+        // show message:
+        std::cout << "Error opening file";
+        }
+        std::cout << arm << " nome";
+
+
+
+
         while(std::getline(file, line)){
-            //std::cout << "rola";
             std::string name;
             while (line.find("<name>") != line.npos) {
+              //  std::cout << "printar";
                 auto position = line.find("<name>");
                 for (std::string::size_type i = position+6; i < line.size(); ++i) {
                     if (line[i] == '<') {
@@ -237,6 +284,7 @@ int get_atribute_name(std::fstream& file, std::list<std::string>& name_list_) {
                 }
             }
             if (name != "") {
+
                 name_list_.push_back(name);
             }
         }
@@ -298,17 +346,22 @@ int get_atribute_data(std::fstream& file, std::list<std::string>& data_list_, st
     std::list<std::string> aux;
     if (file.is_open()){
         std::string line;
+        // file.
+        
         while(std::getline(file, line)){
-            if (line.find('<') == line.npos) {
-                aux.push_back(line);
+            if (line.find('<') == line.npos && line != "") {
+                    aux.push_back(line);
             }
         }
     }
-    auto heit = height_list_.size();
-    for (auto i = 0; i != heit; i++) {
+    //std::cout << aux.size();
+    auto size = height_list_.size();
+  //  std::cout <<"saize of listemp: " << listTemp.size() << std::endl;
+    for (auto i = 0; i != size; i++) {
         std::string empilha;
         for (int j = 0; j != stoi(height_list_.front()); j++) {
-            empilha = empilha + aux.front();
+                empilha = empilha + aux.front();
+
             aux.pop_front();
         }
         data_list_.push_back(empilha);

@@ -1,0 +1,120 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<section xmlns="http://docbook.org/ns/docbook" version="5.0" xmlns:xlink="http://www.w3.org/1999/xlink" xml:id="Main_8cpp">
+    <title>Main.cpp File Reference</title>
+    <programlisting>#include &lt;iostream&gt;</programlisting>
+    <programlisting>#include &lt;string&gt;</programlisting>
+    <programlisting>#include &lt;fstream&gt;</programlisting>
+    <programlisting>#include &lt;stack&gt;</programlisting>
+    <programlisting>#include &lt;list&gt;</programlisting>
+    <programlisting>#include &lt;map&gt;</programlisting>
+    <programlisting>#include &lt;queue&gt;</programlisting>
+<para>Include dependency diagram for Main.cpp</para>
+<para>
+    <figure>
+        <title>Dependency diagram</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="Main_8cpp__incl.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+<para>Included by dependency diagram for Main.cpp</para>
+<para>
+    <figure>
+        <title>Dependency diagram</title>
+        <mediaobject>
+            <imageobject>
+                <imagedata width="50%" align="center" valign="middle" scalefit="1" fileref="Main_8cpp__dep__incl.png"></imagedata>
+            </imageobject>
+        </mediaobject>
+    </figure>
+</para>
+        <section>
+            <title>Funções</title>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>std::string <link linkend="Main_8cpp_1adc265dbef63f40d446480f7d9d388321">get_file_name</link> (
+)<para><emphasis>gets filename from input stream</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>std::list&lt; char &gt; <link linkend="Main_8cpp_1ab2c6c6427425866611a6a37b96359fcb">create_char_array_of_file</link> (
+std::fstream &amp; tfile)<para><emphasis>check if the file is open and stores each char of the file</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="Main_8cpp_1a2b6a216557e7c27581fc3a854a02b714">get_atribute_name</link> (
+std::fstream &amp; file, std::list&lt; std::string &gt; &amp; name_list_)<para><emphasis>gets the name from every image and pushes it onto the list, closes the file</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="Main_8cpp_1acfb3f4918f699c2fd41540f593595bdb">get_atribute_height</link> (
+std::fstream &amp; file, std::list&lt; std::string &gt; &amp; height_list_)<para><emphasis>gets the height from every image and pushes it onto the list, closes the file</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="Main_8cpp_1a40b0ae7e86e9a570eac28ceec11fbd63">get_atribute_width</link> (
+std::fstream &amp; file, std::list&lt; std::string &gt; &amp; width_list_)<para><emphasis>gets the width from every image and pushes it onto the list, closes the file</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="Main_8cpp_1acae333bd06ae779343adaa7708f4f6dc">get_atribute_data</link> (
+std::fstream &amp; file, std::list&lt; std::string &gt; &amp; data_list_, std::list&lt; std::string &gt; height_list_)<para><emphasis>gets the data from every image and pushes it onto the list, closes the file</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="Main_8cpp_1a5ae785d75e600dd729a64a830114331f">labelling</link> (
+std::string name, std::string height, std::string width, std::string data)<para><emphasis>labelling algorithm, returns the ammount of single elements in the data</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>bool <link linkend="Main_8cpp_1ac8e5303adedfc37100c7944632982fba">verify_xml</link> (
+std::fstream &amp; file)<para><emphasis>verifies the xml file</emphasis></para>
+</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+            <para>
+                <itemizedlist>
+                    <listitem>
+                        <para>int <link linkend="Main_8cpp_1ae66f6b31b5ad750f1fe042a706a4e3d4">main</link> (
+)</para>
+                    </listitem>
+                </itemizedlist>
+            </para>
+        </section>
+    <simplesect>
+        <title>Descrição detalhada</title>
+    <para>Definition in file /home/arthur/Desktop/INE5408/T1/Main.cpp</para>
+    </simplesect>
+</section>
