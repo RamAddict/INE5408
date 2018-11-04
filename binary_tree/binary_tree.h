@@ -33,11 +33,14 @@ struct Node;
     }
     //! remove
     void remove(const T& data) {
-        if (size_ == 0)
-            throw std::out_of_range("empty");
-        if (!contains(data))
-            throw std::out_of_range("does not contain data to remove");
+        if (contains(data)) {
+        root->remove(data, root);
         size_--;
+        }
+    }
+    //! returns the left-most node
+    T menor_root() {
+        return (root->min_node(root))->data();
     }
     //! contains
     bool contains(const T& data) const {
@@ -112,6 +115,13 @@ struct Node;
             _right = right;
         }
 
+        Node* min_node(Node* self) {
+            auto current_node = self;
+                while (current_node->left())
+                    current_node = current_node->left();
+            return current_node;
+        }
+
         void insert(const T& data_) {
             if (data_ > _data) {
                 if (_right == nullptr) {
@@ -128,10 +138,74 @@ struct Node;
             }
         }
 
-        bool remove(const T& data_) {
-            if (data_ == _data) {
-                
+        bool remove(const T& data_, Node* parent) {
+            if (data_ > _data) {
+                if (_right == nullptr) {
+                    return false;
+                } else {
+                    _right->remove(data_, this);
+                }
+            } else if (data_ < _data) {
+                if (_left == nullptr) {
+                    return false;
+                } else {
+                    _left->remove(data_, this);
+                }
+            } else {
+                // se tiver nenhum filho retorna
+                if (is_leaf()) {
+                    delete this;
+                    return true;
+                // se tiver somente um filho FILHO UNICO
+                } else if (    (_right != nullptr && _left == nullptr)
+                            || (_right == nullptr && _left != nullptr)) {
+                    // se quem eu for deletar for filho a esquerda do pai
+                    if (this == parent->left()) {
+                        // se tiver filho a esquerda
+                        if (_left != nullptr) {
+                            parent->left(_left);
+                            delete this;
+                            return true;
+                        }
+                        // se tiver fiho a direita
+                        if (_right != nullptr) {
+                            parent->left(_right);
+                            delete this;
+                            return true;
+                        }
+                    }
+                    if (this == parent->right()) {
+                        // tiver filho a esquerda
+                        if (_left != nullptr) {
+                            parent->right(_left);
+                            delete this;
+                            return true;
+                        }
+                        // se tiver fiho a direita
+                        if (_right != nullptr) {
+                            parent->right(_right);
+                            delete this;
+                            return true;
+                        }
+                    }
+                    // se tiver 2 filhos
+                } else {
+                    // se o filho a direita n tiver filho a esquerda
+                    if (_right->left() == nullptr) {
+                        _data = _right->data();
+                        auto temp_right = _right;
+                        delete _right;
+                        _right = temp_right;
+                        return true;
+                    // se o filho a direita tiver filho a esquerda
+                    } else {
+                        auto lefty = _right->min_node(_right);
+                        _data = lefty->data();
+                        delete lefty;
+                    }
+                }
             }
+            return false;
         }
 
         bool contains(const T& data_) const {
@@ -153,7 +227,7 @@ struct Node;
         }
 
         bool is_leaf() {
-            return (this->right == nullptr && this->left == nullptr);
+            return (_right == nullptr && _left == nullptr);
         }
 
         void pre_order(ArrayList<T>& v) const {

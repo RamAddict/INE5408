@@ -34,4 +34,7 @@
         CHECK(tree.contains(8));
         CHECK(tree.contains(9));
         CHECK(!tree.contains(7.2));
+        std::cout << "\nmenor: " << tree.menor_root();
+        CHECK_NOTHROW(tree.remove(10));
+        tree.remove(9);
     }
